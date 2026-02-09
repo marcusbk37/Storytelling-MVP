@@ -9,7 +9,7 @@ import { getStorytellingScenarios } from '@/lib/scenarios';
 
 export default function StorytellingPage() {
   const scenarios = getStorytellingScenarios();
-  const currentDate = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  const featuredSession = scenarios[0];
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 selection:bg-emerald-900 selection:text-white">
@@ -17,8 +17,8 @@ export default function StorytellingPage() {
 
       <header className="pt-24 pb-12 px-6 border-b border-slate-200 bg-white">
         <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <div>
+          <div className="flex flex-col md:flex-row md:items-stretch justify-between gap-8">
+            <div className="flex-1 min-w-0">
               <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">
                 Storytelling
               </p>
@@ -29,16 +29,43 @@ export default function StorytellingPage() {
                 Select a session below to speak with a human interest journalist about one meaningful story from your life.
               </p>
             </div>
-            <div className="bg-slate-50 border border-slate-100 p-4 rounded-sm text-right min-w-[200px]">
-              <div className="text-[10px] text-slate-400 uppercase tracking-widest font-semibold mb-1">Date</div>
-              <div className="font-serif text-lg text-slate-900">{currentDate}</div>
-            </div>
+            {featuredSession && (
+              <Link
+                href={`/scenarios/${featuredSession.id}`}
+                className="group flex-shrink-0 w-full md:w-80 block bg-white border border-slate-200 hover:border-emerald-900/50 transition-all duration-300 overflow-hidden"
+              >
+                <div className="relative h-40 overflow-hidden border-b border-slate-100">
+                  <div className="absolute top-3 left-3 z-10">
+                    <span className="bg-white/90 backdrop-blur-sm px-2 py-1 text-[10px] uppercase font-bold tracking-wider text-slate-900 border border-slate-200 shadow-sm">
+                      {featuredSession.domain}
+                    </span>
+                  </div>
+                  <Image
+                    src={featuredSession.persona?.image ?? '/personas/stanford.png'}
+                    alt={featuredSession.title}
+                    fill
+                    className="object-cover object-top transition-transform duration-700 group-hover:scale-105 filter grayscale contrast-[0.9] group-hover:grayscale-0 group-hover:contrast-100"
+                  />
+                </div>
+                <div className="p-4">
+                  <h3 className="text-base font-serif font-medium text-slate-900 group-hover:text-emerald-900 transition-colors mb-1">
+                    {featuredSession.title}
+                  </h3>
+                  <p className="text-slate-500 text-xs mb-3 leading-relaxed line-clamp-2">
+                    {featuredSession.challenge ?? featuredSession.description}
+                  </p>
+                  <span className="text-xs font-bold text-emerald-950 uppercase tracking-wide group-hover:underline decoration-1 underline-offset-4">
+                    Start session →
+                  </span>
+                </div>
+              </Link>
+            )}
           </div>
         </div>
       </header>
 
       <div className="border-b border-slate-200 bg-slate-50">
-        <div className="max-w-6xl mx-auto px-6 py-6">
+        <div className="max-w-6xl mx-auto px-6 py-8">
           <div className="flex flex-col md:flex-row gap-8 md:gap-16 text-sm">
             <div className="flex items-center gap-3">
               <span className="flex items-center justify-center w-6 h-6 rounded-full border border-emerald-900 text-emerald-900 font-mono text-xs">1</span>
