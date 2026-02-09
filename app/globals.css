@@ -1,0 +1,135 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Animated gradient utilities */
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animated-gradient-soft {
+  background: linear-gradient(90deg, rgba(99,102,241,0.06) 0%, rgba(79,70,229,0.04) 50%, rgba(99,102,241,0.06) 100%);
+  background-size: 200% 200%;
+  animation: gradientShift 8s ease infinite;
+}
+
+.animated-gradient-btn {
+  background: linear-gradient(90deg, #6366f1 0%, #4f46e5 35%, #06b6d4 100%);
+  background-size: 200% 200%;
+  animation: gradientShift 4s linear infinite;
+  box-shadow: 0 6px 18px rgba(79,70,229,0.18);
+}
+
+.animated-gradient-btn:disabled {
+  opacity: 0.6;
+  filter: grayscale(30%);
+}
+
+/* Subtle float animation for image placeholders */
+@keyframes floatY {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0px); }
+}
+
+.float-soft {
+  animation: floatY 6s ease-in-out infinite;
+}
+
+/* Soft scale on hover for placeholders */
+.hover-scale-up:hover {
+  transform: translateZ(0) scale(1.03);
+  transition: transform 350ms cubic-bezier(.2,.9,.2,1);
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  /* Base Animation Classes */
+  .fade-in {
+    animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0; /* Start hidden */
+  }
+
+  .fade-in-up {
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0; /* Start hidden */
+  }
+
+  /* Delays - matching the classes you used in your component */
+  .fade-in-delay-200 {
+    animation-delay: 200ms;
+  }
+  
+  .fade-in-delay-400 {
+    animation-delay: 400ms;
+  }
+  
+  .fade-in-delay-600 {
+    animation-delay: 600ms;
+  }
+}
+
+/* Keyframe Definitions */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
