@@ -40,30 +40,16 @@ export async function POST(request: Request) {
         - Balanced (acknowledge strengths AND areas for growth)
         - Actionable (provide concrete suggestions for improvement)
         - Empathetic yet direct
-        - Focused on manager skills like empathy, clarity, active listening, and problem-solving`;
-    // Build the analysis systemPrompt based on scenario type
-    let systemPrompt = '';
-    switch (scenario?.type) {
-      case 'manager-training':
-        systemPrompt = `You are an expert management and executive coach specializing in difficult workplace conversations. 
-        Analyze the transcript and provide constructive, actionable feedback focused on 
-        manager skills: empathy, clarity, active listening, and problem-solving. 
-        ${analysisStyle}`;
-        break;
-      case 'sales-training':
-        systemPrompt = `You are a top sales trainer and coach. Analyze the transcript and provide constructive, 
-        actionable feedback focused on sales skills: rapport-building, objection handling, value articulation,
-         and emotional intelligence. ${analysisStyle}`;
-        break;
-      case 'interview-training':
-        systemPrompt = `You are an expert interview coach. Analyze the transcript and provide constructive, 
-        actionable feedback focused on interview skills: clarity, confidence, relevance, and rapport. 
-        ${analysisStyle}`;
-        break;
-      default:
-        systemPrompt = `You are an expert coach. Analyze the transcript and provide constructive, 
-        actionable feedback. ${analysisStyle}`;
-    }
+        - Focused on storytelling skills: emotional depth, clarity, specificity, and narrative coherence`;
+
+    // For now, we treat all conversations as storytelling practice with a human interest journalist.
+    const systemPrompt = `You are an expert storytelling and narrative coach.
+    Analyze the transcript and provide constructive, actionable feedback focused on:
+    - Helping the user tell one clear, specific story
+    - Drawing out concrete scenes and sensory details
+    - Exploring emotions, stakes, and what changed
+    - Strengthening the overall narrative arc and meaning.
+    ${analysisStyle}`;
 
     const userPrompt = `Analyze this conversation transcript between a user and an AI roleplay. 
     Your goal is to provide constructive, actionable feedback for the user to handle the AI better.

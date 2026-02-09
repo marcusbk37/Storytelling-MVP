@@ -252,10 +252,10 @@ export default function ScenarioInterface({ scenario }: ScenarioInterfaceProps) 
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="h-screen flex flex-col bg-white overflow-hidden">
       <NavBarDemo />
-      <div className="flex flex-grow ">
-        <aside className="w-80 p-4 bg-white shadow-lg">
+      <div className="flex flex-1 min-h-0">
+        <aside className="w-80 flex-shrink-0 p-4 bg-white shadow-lg overflow-y-auto">
           {/* Objectives - now dynamic */}
           <div className=" pb-8 mb-2 border-b border-gray-200 p-4  fade-in-up fade-in-delay-200">
             <h2 className="text-xl font-serif text-slate-900 mb-4">Objectives</h2>
@@ -337,15 +337,17 @@ export default function ScenarioInterface({ scenario }: ScenarioInterfaceProps) 
         </aside>
 
 
-        <main className="flex-1">
-          <ScenarioHeader
-            title={scenario.title}
-            difficulty={scenario.difficulty}
-            persona={persona}
-            context={context}
-          />
-          <div className="bg-white shadow-lg overflow-hidden flex flex-col" style={{ height: '600px' }}>
-            <div className="flex-1 overflow-y-auto p-6 space-y-4 ">
+        <main className="flex-1 flex flex-col min-h-0 overflow-hidden">
+          <div className="flex-shrink-0">
+            <ScenarioHeader
+              title={scenario.title}
+              difficulty={scenario.difficulty}
+              persona={persona}
+              context={context}
+            />
+          </div>
+          <div className="flex-1 flex flex-col min-h-0 bg-white shadow-lg overflow-hidden">
+            <div className="flex-1 min-h-0 overflow-y-auto p-6 space-y-4">
               {!sessionStarted ? (
                 <div className="flex flex-col items-center justify-center h-full text-center">
                   <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mb-6 border border-slate-100">
@@ -388,8 +390,8 @@ export default function ScenarioInterface({ scenario }: ScenarioInterfaceProps) 
               )}
             </div>
 
-            {/* Controls */}
-            <div className={`border-t border-gray-200 p-6 ${!sessionStarted ? 'animated-gradient-soft rounded-b-xl' : 'bg-white'}`}>
+            {/* Controls - flex-shrink-0 keeps button visible without scrolling */}
+            <div className={`flex-shrink-0 border-t border-gray-200 p-6 ${!sessionStarted ? 'animated-gradient-soft rounded-b-xl' : 'bg-white'}`}>
               {error && (
                 <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
                   <p className="text-red-800 text-sm">{error}</p>
@@ -445,7 +447,7 @@ export default function ScenarioInterface({ scenario }: ScenarioInterfaceProps) 
         </main>
 
 
-        <aside className="w-1/3 overflow-y-auto border-l border-slate-200 bg-slate-200">
+        <aside className="w-1/3 flex-shrink-0 overflow-y-auto border-l border-slate-200 bg-slate-200 min-h-0">
           {/* Recent Practice Section */}
           {practiceSessions.length >= 0 && (
             <div className="  bg-white shadow-lg overflow-hidden fade-in fade-in-delay-200 h-full">

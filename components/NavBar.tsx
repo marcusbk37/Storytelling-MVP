@@ -16,10 +16,10 @@ export default function NavBar() {
           <Link href="/" className="text-sm font-normal text-gray-700 hover:text-emerald-600 transition-colors">
             Home
           </Link>
-          <Link href="/sales-training" className="text-sm  font-normal text-gray-700 hover:text-emerald-600 transition-colors">
-            Demo
+          <Link href="/storytelling" className="text-sm  font-normal text-gray-700 hover:text-emerald-600 transition-colors">
+            Storytelling
           </Link>
-          <Link href="/sales-training/dashboard" className="text-sm font-normal text-gray-700 hover:text-emerald-600 transition-colors">
+          <Link href="/storytelling/dashboard" className="text-sm font-normal text-gray-700 hover:text-emerald-600 transition-colors">
             Dashboard
           </Link>
         </div>
