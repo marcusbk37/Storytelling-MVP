@@ -52,7 +52,7 @@ export async function POST(request: Request) {
     ${analysisStyle}`;
 
     const userPrompt = `Analyze this conversation transcript between a user and an AI roleplay. 
-    Your goal is to provide constructive, actionable feedback for the user to handle the AI better.
+    Your goal is to provide constructive, actionable feedback for the user to tell the story they were telling more compellingly.
 
 OBJECTIVES FOR THIS CONVERSATION:
 ${objectives.map((obj, idx) => `${idx + 1}. ${obj}`).join('\n')}
@@ -80,7 +80,7 @@ Please provide a detailed analysis in the following JSON format:
     "explanation": "<brief explanation of objective performance>"
   },
   "speakingBalance": {
-    "managerPercentage": <estimated % manager spoke>,
+    "userPercentage": <estimated % user spoke>,
     "assessment": "<whether balance was appropriate and why>"
   },
   "fillerWordsEstimate": <rough count of um, uh, like, etc>,
@@ -94,7 +94,7 @@ Please provide a detailed analysis in the following JSON format:
     }
   ],
   "nextSteps": [
-    "<actionable recommendation for future conversations>",
+    "<actionable recommendation for the user to tell the story they were telling more compellingly>",
     ...
   ]
 }

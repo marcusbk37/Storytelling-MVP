@@ -69,7 +69,7 @@ export const scenarios: Record<string, Scenario> = {
       temperature: 55,
       image: '/personas/stanford.png',
       personality: ['cooperative', 'emotional', 'analytical'],
-      duration: 30,
+      duration: 15,
       recentPerformanceIssues: [
         {
           title: 'Going deeper',
