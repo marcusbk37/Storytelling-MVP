@@ -33,3 +33,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# RAG content (do not commit transcripts)
+content/
+!content/_TEMPLATE_transcript.md
