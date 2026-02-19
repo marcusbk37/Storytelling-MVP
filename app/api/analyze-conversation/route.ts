@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import Anthropic from '@anthropic-ai/sdk';
 import { getScenario } from '@/lib/scenarios';
+import { queryPinecone } from '@/lib/pinecone';
 
 const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
@@ -35,6 +36,28 @@ export async function POST(request: Request) {
       .map((msg) => `${msg.speaker}: ${msg.text}`)
       .join('\n\n');
 
+    // Query Pinecone for relevant chunks to enhance the analysis
+    console.log('🔍 Querying Pinecone for relevant storytelling examples...');
+    console.log('📝 Transcript preview:', transcriptText.substring(0, 200) + '...');
+    const relevantChunks = await queryPinecone(transcriptText, 3);
+    
+    console.log(`📊 Pinecone query returned ${relevantChunks.length} chunks`);
+    
+    // Format relevant chunks for inclusion in prompt
+    let relevantChunksSection = '';
+    if (relevantChunks.length > 0) {
+      console.log('✅ Formatting chunks for prompt inclusion...');
+      relevantChunksSection = `\n\nRELEVANT STORYTELLING EXAMPLES FROM KNOWLEDGE BASE:
+${relevantChunks.map((chunk, idx) => 
+  `${idx + 1}. ${chunk.author ? `[From: ${chunk.author}] ` : ''}${chunk.text}${chunk.source ? `\n   Source: ${chunk.source}` : ''}`
+).join('\n\n')}
+
+Use these examples as reference points when providing feedback. They demonstrate effective storytelling techniques that you can reference in your analysis.`;
+      console.log(`✅ Added ${relevantChunks.length} chunks to prompt (${relevantChunksSection.length} chars)`);
+    } else {
+      console.warn('⚠️ No chunks found from Pinecone - proceeding without RAG context');
+    }
+
     let analysisStyle = `Your analysis should be:
         - Specific and evidence-based (cite exact moments from the transcript)
         - Balanced (acknowledge strengths AND areas for growth)
@@ -58,7 +81,7 @@ OBJECTIVES FOR THIS CONVERSATION:
 ${objectives.map((obj, idx) => `${idx + 1}. ${obj}`).join('\n')}
 
 TRANSCRIPT:
-${transcriptText}
+${transcriptText}${relevantChunksSection}
 
 Please provide a detailed analysis in the following JSON format:
 {
@@ -102,6 +125,14 @@ Please provide a detailed analysis in the following JSON format:
 Be thorough but concise. Focus on practical, actionable insights.`;
 
     console.log('🤖 Sending to Claude for analysis...');
+    console.log('📋 Prompt details:');
+    console.log(`   - System prompt length: ${systemPrompt.length} chars`);
+    console.log(`   - User prompt length: ${userPrompt.length} chars`);
+    console.log(`   - Includes RAG chunks: ${relevantChunks.length > 0 ? 'YES' : 'NO'}`);
+    if (relevantChunks.length > 0) {
+      console.log(`   - RAG section length: ${relevantChunksSection.length} chars`);
+    }
+    console.log('📄 User prompt preview:', userPrompt.substring(0, 500) + '...');
 
     const response = await anthropic.messages.create({
       model: 'claude-sonnet-4-20250514',
